@@ -481,6 +481,43 @@ require('lazy').setup({
   { 'mfussenegger/nvim-jdtls' },
   { 'VonHeikemen/lsp-zero.nvim', branch = 'v4.x' },
   {
+    'romgrk/barbar.nvim',
+    requires = 'nvim-web-devicons',
+    config = function()
+      -- Barbar configuration
+      require('barbar').setup {
+        animation = true,
+        auto_hide = false,
+        icons = { filetype = { enabled = true } },
+        max_tabs = 20,
+      }
+
+      -- Key mappings for barbar.nvim
+      local map = vim.api.nvim_set_keymap
+      local opts = { noremap = true, silent = true }
+
+      map('n', '<A-,>', '<Cmd>BufferPrevious<CR>', opts)
+      map('n', '<A-.>', '<Cmd>BufferNext<CR>', opts)
+
+      map('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>', opts)
+      map('n', '<A->>', '<Cmd>BufferMoveNext<CR>', opts)
+
+      for i = 1, 9 do
+        map('n', '<A-' .. i .. '>', '<Cmd>BufferGoto ' .. i .. '<CR>', opts)
+      end
+      map('n', '<A-0>', '<Cmd>BufferLast<CR>', opts)
+
+      map('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
+      map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
+      map('n', '<C-p>', '<Cmd>BufferPick<CR>', opts)
+      map('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>', opts)
+      map('n', '<Space>bn', '<Cmd>BufferOrderByName<CR>', opts)
+      map('n', '<Space>bd', '<Cmd>BufferOrderByDirectory<CR>', opts)
+      map('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>', opts)
+      map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts)
+    end,
+  },
+  {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     dependencies = {
